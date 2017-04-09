@@ -1,4 +1,4 @@
-package edu.hm.sbecker.pstrasse.main;
+package edu.hm.sbecker.pstrasse.test;
 
 import java.util.Date;
 

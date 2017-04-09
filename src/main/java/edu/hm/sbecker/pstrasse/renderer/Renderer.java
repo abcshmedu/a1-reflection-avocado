@@ -70,7 +70,6 @@ public class Renderer {
             renderedString += f.getName() + " ";
             renderedString += "(Type ";
             try {
-
                 if (renderMe.with().equals("edu.hm.sbecker.pstrasse.renderer.DefaultRenderer")) {
                     Object correctRenderer = renderer.getConstructor().newInstance();
                     Method method = renderer.getMethod("render", Field.class, Object.class);
