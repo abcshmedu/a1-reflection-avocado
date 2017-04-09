@@ -111,8 +111,23 @@ public class Renderer {
             m.setAccessible(true);
             Annotation[] annotations = m.getDeclaredAnnotations();
 
-            for (Annotation a : annotations) {0}
+            for (Annotation a : annotations) {
+                if (a instanceof RenderMe && !m.getReturnType().equals(Void.TYPE)) {
+                    renderedString += m.getName() + " ";
+                    renderedString += "(Returntype " + m.getReturnType() + "): ";
+                    try {
+                        renderedString += m.invoke(object).toString() + "\n";
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (IllegalArgumentException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
+        
         return renderedString;
         }
 }
