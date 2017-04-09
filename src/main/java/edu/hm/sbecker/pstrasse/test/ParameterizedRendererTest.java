@@ -72,7 +72,7 @@ public class ParameterizedRendererTest {
     @Test
     public void testRenderer() {
         //System.out.println(renderer.render());
-       //System.out.println(expectedString);
+        //System.out.println(expectedString);
         //System.out.println(renderer.render());
         Assert.assertEquals(expectedString, renderer.render());
     }
