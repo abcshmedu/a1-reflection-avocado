@@ -62,6 +62,7 @@ public class Renderer {
             RenderMe renderMe = f.getAnnotation(RenderMe.class);
             Class< ? > renderer = null;
             try {
+                System.out.println(Class.forName(renderMe.with()));
                 renderer = Class.forName(renderMe.with());
             } catch (ClassNotFoundException e1) {
                 e1.printStackTrace();

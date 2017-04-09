@@ -16,9 +16,9 @@ public class SomeClass {
 		this.foo = foo;
 	}
 	
-	@RenderMe
-	public int returnInt(){
-		return (int) (Math.random() * 10);
-	}
-	
+//	@RenderMe
+//	public int returnInt(){
+//		return (int) (Math.random() * 10);
+//	}
+//	
 }
