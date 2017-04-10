@@ -17,6 +17,7 @@ public class Renderer {
 
     /**
      * Ctor der Renderer-Klasse.
+     * 
      * @param object Object, welches gerendert werden soll
      */
     public Renderer(Object object) {
@@ -24,18 +25,17 @@ public class Renderer {
     }
 
     /**
-     * Das ist die render-Methode die als erstes aufgerufen wird.
-     * Sie kümmert sich um das Aufrufen der (falls benötigt) anderen
-     * render-Methoden.
+     * Das ist die render-Methode die als erstes aufgerufen wird. Sie kümmert
+     * sich um das Aufrufen der (falls benötigt) anderen render-Methoden.
+     * 
      * @return returned einen String der das Object beschreibt
      */
     public String render() {
         String renderedString = "";
         Field[] fields;
         Method[] methods;
-        Class< ? > objectClass = object.getClass();
+        Class<?> objectClass = object.getClass();
         renderedString += "Instance of " + objectClass.getName() + ":\n";
-
 
         // Start the rendering for the variables
         fields = objectClass.getDeclaredFields();
@@ -44,69 +44,71 @@ public class Renderer {
         // Start the rendering for the methods
         methods = objectClass.getMethods();
         renderedString += renderMethods(methods);
-        
 
         return renderedString;
     }
-    
+
     /**
      * Diese Methode kümmert sich um das Rendern der Variablen des Objects.
+     * 
      * @param fields Felder, welche gerendert werden sollen
      * @return einen String der die Variablen des Objects beschreibt
      */
     private String renderVariables(Field[] fields) {
         String renderedString = "";
-        
+
         for (Field f : fields) {
             f.setAccessible(true);
             RenderMe renderMe = f.getAnnotation(RenderMe.class);
-            Class< ? > renderer = null;
-            try {
-                System.out.println(Class.forName(renderMe.with()));
-                renderer = Class.forName(renderMe.with());
-            } catch (ClassNotFoundException e1) {
-                e1.printStackTrace();
-            }
-
-            renderedString += f.getName() + " ";
-            renderedString += "(Type ";
-            try {
-                if (renderMe.with().equals("edu.hm.sbecker.pstrasse.renderer.DefaultRenderer")) {
-                    Object correctRenderer = renderer.getConstructor().newInstance();
-                    Method method = renderer.getMethod("render", Field.class, Object.class);
-                    renderedString += method.invoke(correctRenderer, f, object);
-                } else if (renderMe.with().equals("edu.hm.sbecker.pstrasse.renderer.ArrayRenderer")) {
-                    Object correctRenderer = renderer.getConstructor().newInstance();
-                    Method method = renderer.getMethod("render", int[].class);
-                    renderedString += method.invoke(correctRenderer, (int[]) f.get(object));
+            Class<?> renderer = null;
+            if (renderMe != null) {
+                try {
+                    renderer = Class.forName(renderMe.with());
+                } catch (ClassNotFoundException e1) {
+                    e1.printStackTrace();
                 }
 
-            } catch (InstantiationException e1) {
-                e1.printStackTrace();
-            } catch (IllegalAccessException e1) {
-                e1.printStackTrace();
-            } catch (IllegalArgumentException e1) {
-                e1.printStackTrace();
-            } catch (InvocationTargetException e1) {
-                e1.printStackTrace();
-            } catch (NoSuchMethodException e1) {
-                e1.printStackTrace();
-            } catch (SecurityException e1) {
-                e1.printStackTrace();
+                renderedString += f.getName() + " ";
+                renderedString += "(Type ";
+                try {
+                    if (renderMe.with().equals("edu.hm.sbecker.pstrasse.renderer.DefaultRenderer")) {
+                        Object correctRenderer = renderer.getConstructor().newInstance();
+                        Method method = renderer.getMethod("render", Field.class, Object.class);
+                        renderedString += method.invoke(correctRenderer, f, object);
+                    } else if (renderMe.with().equals("edu.hm.sbecker.pstrasse.renderer.ArrayRenderer")) {
+                        Object correctRenderer = renderer.getConstructor().newInstance();
+                        Method method = renderer.getMethod("render", int[].class);
+                        renderedString += method.invoke(correctRenderer, (int[]) f.get(object));
+                    }
+
+                } catch (InstantiationException e1) {
+                    e1.printStackTrace();
+                } catch (IllegalAccessException e1) {
+                    e1.printStackTrace();
+                } catch (IllegalArgumentException e1) {
+                    e1.printStackTrace();
+                } catch (InvocationTargetException e1) {
+                    e1.printStackTrace();
+                } catch (NoSuchMethodException e1) {
+                    e1.printStackTrace();
+                } catch (SecurityException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
-        
+
         return renderedString;
     }
-    
+
     /**
      * Diese Methode kümmert sich um das Rendern der Methoden des Objects.
+     * 
      * @param methods Methoden, welche gerendert werden sollen
      * @return Ein String der die Methoden des Objects beschreibt
      */
     private String renderMethods(Method[] methods) {
         String renderedString = "";
-        
+
         for (Method m : methods) {
             m.setAccessible(true);
             Annotation[] annotations = m.getDeclaredAnnotations();
@@ -127,7 +129,7 @@ public class Renderer {
                 }
             }
         }
-        
+
         return renderedString;
-        }
+    }
 }

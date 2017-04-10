@@ -10,7 +10,8 @@ import edu.hm.sbecker.pstrasse.renderer.RenderMe;
  * @author Peter Straßer
  */
 public class AnotherClass {
-    //public static final int DATE_TIME = 123456789;
+   
+    //private static final int DATE_TIME = 123456789;
     
     @RenderMe
     private int foo;
@@ -19,7 +20,7 @@ public class AnotherClass {
     private int[] array;
 
     @RenderMe
-    private Date date = new Date(123456789);
+    private Date date = null;
     
     /**
      * Ctor für AnotherClass-Objects.
