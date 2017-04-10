@@ -11,7 +11,7 @@ import edu.hm.sbecker.pstrasse.renderer.RenderMe;
  */
 public class AnotherClass {
    
-    //private static final int DATE_TIME = 123456789;
+    private static final int DATE_TIME = 123456789;
     
     @RenderMe
     private int foo;
@@ -20,7 +20,7 @@ public class AnotherClass {
     private int[] array;
 
     @RenderMe
-    private Date date = null;
+    private Date date = new Date(DATE_TIME);
     
     /**
      * Ctor für AnotherClass-Objects.
